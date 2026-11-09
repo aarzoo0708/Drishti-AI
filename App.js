@@ -741,7 +741,7 @@ export default function App() {
         startVoiceStage('wake-recognition');
         markVoiceEvent('wake listening started');
         setVoiceState(VOICE_ASSISTANT_STATES.LISTENING);
-        setVoiceStatus('Speech recognition is active. Say Hey Navi or Hi Navi.');
+        setVoiceStatus('Speech recognition is active. Say Hey Drishti or Hi Drishti.');
       } else if (voiceModeRef.current === VOICE_MODES.COMMAND_LISTENING) {
         startVoiceStage('command-listening');
         markVoiceEvent('command listening started');
@@ -770,12 +770,12 @@ export default function App() {
       markVoiceEvent(`${resultKind} speech result`, { mode: voiceModeRef.current, transcript });
       if (__DEV__) console.info(`[VoiceRecognition] ${resultKind} result`, { mode: voiceModeRef.current, transcripts });
       if (voiceModeRef.current === VOICE_MODES.WAKE_LISTENING && event.isFinal) {
-        const matchedTranscript = transcripts.find((candidate) => /\b(?:hey|hi)\s+(?:navi|navy|nav i)\b/.test(normalizeVoiceCommand(candidate)));
+        const matchedTranscript = transcripts.find((candidate) => /\b(?:hey|hi)\s+drishti\b/.test(normalizeVoiceCommand(candidate)));
         if (matchedTranscript) {
           if (__DEV__) console.info('[VoiceRecognition] activation phrase matched', { transcript: matchedTranscript });
           handleWakeWordDetected();
         } else {
-          setVoiceStatus(`Heard: ${transcript}. Say Hey Navi or Hi Navi to activate.`);
+          setVoiceStatus(`Heard: ${transcript}. Say Hey Drishti or Hi Drishti to activate.`);
         }
       } else if (voiceModeRef.current === VOICE_MODES.COMMAND_LISTENING && event.isFinal) {
         if (speechResultHandledRef.current) return;
@@ -877,7 +877,7 @@ export default function App() {
             <Text style={styles.brandMarkText}>◉</Text>
           </View>
           <View style={styles.brandCopy}>
-            <Text style={styles.brandName}>NaviAble AI</Text>
+            <Text style={styles.brandName}>Drishti AI</Text>
             <Text style={styles.brandSubtitle}>Your AI-powered visual companion.</Text>
           </View>
         </View>

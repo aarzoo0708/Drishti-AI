@@ -184,7 +184,7 @@ export function CameraModal({ visible, onClose, onCaptureConfirmed, onCaptureErr
             </View>
             <Text style={styles.permissionTitle}>Camera Access Needed</Text>
             <Text style={styles.permissionBody}>
-              NaviAble AI needs camera permission to capture objects, text, and surroundings for visual assistance.
+              Drishti AI needs camera permission to capture objects, text, and surroundings for visual assistance.
             </Text>
             {Platform.OS === 'web' && (
               <Text style={styles.webNote}>

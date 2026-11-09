@@ -91,8 +91,8 @@ export function getVoiceSetupProblem() {
   const speechModule = getSpeechRecognitionModule();
   if (!speechModule?.start || !speechModule?.addListener) {
     logVoice('module unavailable');
-    if (Platform.OS === 'web') return 'Voice recognition is not supported by this browser. Open NaviAble in Chrome or Edge and allow microphone access.';
-    return 'Voice assistance requires the NaviAble Android development build. Expo Go does not include the native speech-recognition module.';
+    if (Platform.OS === 'web') return 'Voice recognition is not supported by this browser. Open Drishti AI in Chrome or Edge and allow microphone access.';
+    return 'Voice assistance requires the Drishti AI Android development build. Expo Go does not include the native speech-recognition module.';
   }
   const available = Boolean(speechModule.isRecognitionAvailable?.());
   let services = [];
@@ -122,7 +122,7 @@ export async function requestVoiceMicrophonePermission() {
     return permission;
   }
   if (!speechModule.requestMicrophonePermissionsAsync) {
-    throw new Error('Microphone permission is unavailable in this app build. Rebuild NaviAble and try again.');
+    throw new Error('Microphone permission is unavailable in this app build. Rebuild Drishti AI and try again.');
   }
   const permission = await speechModule.requestMicrophonePermissionsAsync();
   logVoice('microphone permission result', permission);
@@ -146,7 +146,7 @@ export function startSpeechRecognition({ mode = 'wake', interimResults = true } 
     interimResults,
     continuous,
     maxAlternatives: 3,
-    contextualStrings: ['Hey Navi', 'Detect my surroundings', 'Read text', 'Repeat', 'Stop speaking', 'Stop assistance'],
+    contextualStrings: ['Hey Drishti', 'Hi Drishti', 'Detect my surroundings', 'Read text', 'Repeat', 'Stop speaking', 'Stop assistance'],
     androidIntentOptions: {
       EXTRA_LANGUAGE_MODEL: 'free_form',
       EXTRA_PARTIAL_RESULTS: interimResults,

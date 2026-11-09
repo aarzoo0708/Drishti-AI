@@ -7,7 +7,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import { colors } from '../styles/theme';
 
 const screens = [
-  { id: 'home', label: 'Home', hint: 'Show the NaviAble AI dashboard.' },
+  { id: 'home', label: 'Home', hint: 'Show the Drishti AI dashboard.' },
   { id: 'settings', label: 'Settings', hint: 'Show text size and accessibility information.' },
   { id: 'help', label: 'Help', hint: 'Explain the app features and how to get started.' },
 ];

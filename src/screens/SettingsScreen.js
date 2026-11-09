@@ -25,7 +25,7 @@ export default function SettingsScreen() {
         <Text accessibilityRole="header" style={styles.sectionTitle}>Reading and access</Text>
         <PreferenceCard
           title="Text size"
-          detail="Text follows the size you choose in your device accessibility settings. NaviAble AI supports system text scaling."
+          detail="Text follows the size you choose in your device accessibility settings. Drishti AI supports system text scaling."
           value={scaleLabel}
         />
         <PreferenceCard

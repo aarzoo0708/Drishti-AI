@@ -4,7 +4,7 @@ import { colors } from '../styles/theme';
 export function AppHeader({ title, description }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.brand}>NaviAble AI</Text>
+      <Text style={styles.brand}>Drishti AI</Text>
       <Text accessibilityRole="header" style={styles.title}>{title}</Text>
       <Text style={styles.description}>{description}</Text>
     </View>

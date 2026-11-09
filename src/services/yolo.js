@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import { finishVoiceStage, startVoiceStage } from './voicePerformance';
 
 /**
- * yolo.js — NaviAble AI YOLO object detection service.
+ * yolo.js — Drishti AI YOLO object detection service.
  *
  * Sends an image to the local FastAPI backend running YOLOv8n and
  * returns the detection results.
@@ -27,7 +27,7 @@ const DEFAULT_URL = Platform.OS === 'android'
  */
 export function getYoloBackendUrl() {
   let raw = (
-    Constants.expoConfig?.extra?.naviable?.yoloUrl
+    Constants.expoConfig?.extra?.drishti?.yoloUrl
     || process.env.EXPO_PUBLIC_YOLO_URL
     || DEFAULT_URL
   ).trim();
@@ -112,7 +112,7 @@ export async function detectObjectsWithYolo(imageInput) {
     }
     throw new Error(
       `Cannot reach the YOLO backend at ${backendUrl}. ` +
-        'Start the FastAPI server. For a physical phone, set EXPO_PUBLIC_YOLO_URL to your computer\'s LAN IP in the NaviAble app project .env file.'
+        'Start the FastAPI server. For a physical phone, set EXPO_PUBLIC_YOLO_URL to your computer\'s LAN IP in the Drishti AI app project .env file.'
     );
   } finally {
     clearTimeout(requestTimeout);

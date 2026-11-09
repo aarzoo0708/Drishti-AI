@@ -1,5 +1,5 @@
 """
-NaviAble AI — YOLO Object Detection Backend
+Drishti AI — YOLO Object Detection Backend
 ============================================
 FastAPI server that runs pretrained YOLOv8n inference on images
 sent as base64-encoded JSON.
@@ -28,7 +28,7 @@ from ultralytics import YOLO
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = FastAPI(title="NaviAble AI — YOLO Detection", version="1.0.0")
+app = FastAPI(title="Drishti AI — YOLO Detection", version="1.0.0")
 
 # Allow all origins and methods so the Expo app can reach the backend.
 app.add_middleware(

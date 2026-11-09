@@ -10,7 +10,7 @@ export function normalizeVoiceCommand(text) {
 /** Map a recognized utterance to an existing assistant action. */
 export function classifyVoiceCommand(transcript) {
   // Accept both one-step requests and a wake phrase followed by the request
-  // in the same utterance (for example, “Hi Navi, open camera”).
+  // in the same utterance (for example, “Hi Drishti, open camera”).
   const command = normalizeVoiceCommand(transcript)
     .replace(/^(?:(?:hey|hi)\s+)?nav(?:i|y|\s+i)\s+/, '')
     .replace(/^(?:hey|hi)\s+navy\s+/, '');

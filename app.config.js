@@ -13,8 +13,8 @@ module.exports = ({ config }) => ({
   ...config,
   extra: {
     ...config.extra,
-    naviable: {
-      ...config.extra?.naviable,
+    drishti: {
+      ...config.extra?.drishti,
       geminiApiKey: process.env.EXPO_PUBLIC_GEMINI_API_KEY || '',
       yoloUrl: process.env.EXPO_PUBLIC_YOLO_URL || '',
     },

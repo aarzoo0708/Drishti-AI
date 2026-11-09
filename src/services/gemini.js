@@ -144,7 +144,7 @@ async function prepareImageForGemini(imageInput) {
  */
 export async function analyzeImageWithGemini(imageInput, options = {}) {
   const apiKey = (
-    Constants.expoConfig?.extra?.naviable?.geminiApiKey
+    Constants.expoConfig?.extra?.drishti?.geminiApiKey
     || process.env.EXPO_PUBLIC_GEMINI_API_KEY
     || ''
   ).trim();

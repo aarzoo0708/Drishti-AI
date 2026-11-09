@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "NaviAble AI",
-    "slug": "naviable-ai",
+    "name": "Drishti AI",
+    "slug": "drishti-ai",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,23 +11,23 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Allow NaviAble AI to access your photos so you can choose an image for visual assistance.",
-          "cameraPermission": "Allow NaviAble AI to access your camera to capture objects, text, and surroundings for visual assistance.",
-          "microphonePermission": "Allow NaviAble AI to listen for your wake phrase and voice commands when voice assistance is enabled."
+          "photosPermission": "Allow Drishti AI to access your photos so you can choose an image for visual assistance.",
+          "cameraPermission": "Allow Drishti AI to access your camera to capture objects, text, and surroundings for visual assistance.",
+          "microphonePermission": "Allow Drishti AI to listen for your wake phrase and voice commands when voice assistance is enabled."
         }
       ],
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow NaviAble AI to access your camera to capture objects, text, and surroundings for visual assistance.",
+          "cameraPermission": "Allow Drishti AI to access your camera to capture objects, text, and surroundings for visual assistance.",
           "recordAudioAndroid": false
         }
       ],
       [
         "expo-speech-recognition",
         {
-          "microphonePermission": "Allow NaviAble AI to listen for your wake phrase and voice commands when voice assistance is enabled.",
-          "speechRecognitionPermission": "Allow NaviAble AI to recognize commands after you activate voice assistance.",
+          "microphonePermission": "Allow Drishti AI to listen for your wake phrase and voice commands when voice assistance is enabled.",
+          "speechRecognitionPermission": "Allow Drishti AI to recognize commands after you activate voice assistance.",
           "androidSpeechServicePackages": [
             "com.google.android.googlequicksearchbox",
             "com.google.android.tts",
@@ -41,10 +41,10 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSCameraUsageDescription": "Allow NaviAble AI to access your camera to capture objects, text, and surroundings for visual assistance.",
-        "NSPhotoLibraryUsageDescription": "Allow NaviAble AI to access your photos so you can choose an image for visual assistance.",
-        "NSMicrophoneUsageDescription": "Allow NaviAble AI to listen for your wake phrase and voice commands when voice assistance is enabled.",
-        "NSSpeechRecognitionUsageDescription": "Allow NaviAble AI to recognize commands after you activate voice assistance."
+        "NSCameraUsageDescription": "Allow Drishti AI to access your camera to capture objects, text, and surroundings for visual assistance.",
+        "NSPhotoLibraryUsageDescription": "Allow Drishti AI to access your photos so you can choose an image for visual assistance.",
+        "NSMicrophoneUsageDescription": "Allow Drishti AI to listen for your wake phrase and voice commands when voice assistance is enabled.",
+        "NSSpeechRecognitionUsageDescription": "Allow Drishti AI to recognize commands after you activate voice assistance."
       }
     },
     "android": {
@@ -58,7 +58,7 @@
         "CAMERA",
         "RECORD_AUDIO"
       ],
-      "package": "com.anonymous.naviableai"
+      "package": "com.drishtiai.assistant"
     },
     "web": {
       "favicon": "./assets/favicon.png"

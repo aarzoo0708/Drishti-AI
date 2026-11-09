@@ -6,7 +6,7 @@ import { colors } from '../styles/theme';
 export default function HelpScreen() {
   return (
     <View style={styles.screen}>
-      <AppHeader title="Help" description="What NaviAble AI can do today" />
+      <AppHeader title="Help" description="What Drishti AI can do today" />
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.introCard}>
           <Text style={styles.introTitle}>Getting started</Text>

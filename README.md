@@ -1,79 +1,120 @@
-# NaviAble AI
+# Drishti AI
 
-Phase 1 Expo frontend for an accessible visual assistance app. The dashboard and image gallery flow are implemented. Gemini-powered image analysis (object detection, sign reading, scene description) is now live.
+Drishti AI is an accessible visual assistance app for Android, built with Expo and React Native. It helps users inspect a live camera view or a selected image with spoken and on-screen descriptions.
+
+## Problem
+
+People who are blind or have low vision can face barriers when identifying nearby objects, reading visible text, or understanding a scene. Drishti AI provides image-based descriptions and voice controls to support those tasks. AI results can be incomplete or incorrect and should not be used as navigation or road-crossing instructions.
 
 ## Features
 
-- **Live Camera Capture:** Open the camera to aim at objects, signboards, or surroundings. Includes an accessible viewfinder guide, camera switching (rear/front), capture button, photo review, and retake/confirm flow.
-- **Gallery Upload:** Select images from your device photo library.
-- **Image Preview & Management:** View selected/captured images directly on the dashboard, with options to retake with camera, change from gallery, or remove.
-- **Soft Sage & Warm Ivory Theme:**
-  - Primary: `#315F4C`
-  - Secondary: `#789985`
-  - Background: `#F6F7F1`
-  - Cards: `#FFFFFF`
-  - Accent: `#E4EDE5`
-  - Text: `#24352D`
-- **Accessibility:** Screen-reader announcements (`AccessibilityInfo.announceForAccessibility`), accessible roles and labels on all camera and gallery controls.
-- **Future Capabilities (Phase 1 Placeholders):** Object Detection, Text Reading (OCR), and Voice Assistance.
+- Camera preview, rear/front camera switching, capture, review, and retake.
+- Image selection from the photo library.
+- Gemini image analysis for scene description, objects, and visible text; read-text commands use Gemini Vision, not a separate OCR engine.
+- YOLOv8n object detection through the FastAPI backend.
+- Android speech recognition for the “Hey Drishti” and “Hi Drishti” activation phrases and voice commands.
+- Spoken responses with repeat and stop controls.
+- Accessible labels, hints, screen-reader announcements, and system text scaling.
 
-## Run the App
+## Voice workflow
 
-Navigate into the project directory and run:
+Start Voice Assistance and grant microphone permission. While the app is in the foreground, Android's speech service listens for “Hey Drishti” or “Hi Drishti”. Drishti AI acknowledges, then recognizes a command. Camera and image commands capture or open an image and send it to Gemini; object-detection commands call the YOLO backend. Results are displayed and spoken. After a result, the app listens for another command, then returns to wake phrase listening after 15 seconds of silence. Stop Assistance ends the session.
 
-```bash
-cd NaviAble-AI
+Wake phrase recognition uses Android's SpeechRecognizer through `expo-speech-recognition`; there is no offline keyword model bundled in this repository. Recognition depends on the device speech provider, may require network access, and is not an always-on background service. See [VOICE_ASSISTANCE_ANDROID.md](VOICE_ASSISTANCE_ANDROID.md).
+
+## Technology and architecture
+
+- **Mobile app:** Expo SDK 58, React Native, JavaScript.
+- **Camera and media:** `expo-camera`, `expo-image-picker`, `expo-image-manipulator`.
+- **Speech:** `expo-speech-recognition` and `expo-speech`.
+- **Image analysis:** Gemini API called by the mobile client.
+- **Object detection:** FastAPI backend using Ultralytics YOLOv8n and Pillow.
+
+The Expo app contains the dashboard, navigation, permissions, camera/gallery flows, voice session, and service clients under `src/services`. Gemini analysis is sent directly from the client. YOLO image requests are posted to the backend's `/detect` endpoint; `/health` reports backend/model status.
+
+## Requirements
+
+- Node.js and npm compatible with the installed Expo SDK.
+- Android Studio/Android SDK and a device or emulator for native camera and speech features.
+- Python 3.10 or newer for the YOLO backend.
+- A Gemini API key for image analysis.
+
+## Frontend setup
+
+```powershell
 npm install
+Copy-Item .env.example .env
+```
+
+Set `EXPO_PUBLIC_GEMINI_API_KEY` and, when using YOLO, `EXPO_PUBLIC_YOLO_URL` in `.env`. Then start Expo:
+
+```powershell
 npx expo start
 ```
 
-## Gemini API setup (required for image analysis)
+Expo Go supports development flows that do not require unavailable native modules. Voice recognition requires the Android development build described below.
 
-1. Get a free API key at <https://aistudio.google.com/app/apikey>.
-2. Copy `.env` in the project root and set your key:
+## Backend setup
 
-```bash
-# .env  — never commit this file
-EXPO_PUBLIC_GEMINI_API_KEY=your_key_here
+From the repository root, create and activate a Python virtual environment, then install the backend requirements:
+
+```powershell
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+py -m pip install -r backend\requirements.txt
 ```
 
-3. Restart the Expo dev server (`Ctrl-C` then `npx expo start`).
+Start the API:
 
-> **Security note:** `EXPO_PUBLIC_` variables are embedded in the compiled app
-> bundle at build time and are **not secret**. Anyone with the APK/IPA can read
-> the value. For a production app, proxy all Gemini requests through your own
-> backend so the key never ships to the client. This direct approach is
-> acceptable for prototypes and local development only.
+```powershell
+cd backend
+uvicorn main:app --host 0.0.0.0 --port 8000
+```
 
-## Try it on Android
+The backend loads `yolov8n.pt` from its working directory. The repository includes this weights file. The app's default `http://10.0.2.2:8000` address is for Android Emulator. For a physical device, set `EXPO_PUBLIC_YOLO_URL` to the computer's reachable LAN address, such as `http://192.168.1.42:8000`, then restart Expo.
 
-<<<<<<< HEAD
-1. Install **Expo Go** on your Android device.
-2. From this project folder, run `npx expo start`.
-3. Connect your computer and phone to the same Wi-Fi network, then scan the QR code shown in the terminal with Expo Go.
-4. Tap **Choose Image** and grant photo access. Select a photo to view its preview.
-5. Tap **Analyse Image** to send the image to Gemini. Results appear below the image card once analysis completes.
-6. Tap **Analyse Again** to re-analyse the same image, or **Change Image** to pick a new one.
+## Gemini configuration
 
-## Structure
+Create a key in [Google AI Studio](https://aistudio.google.com/app/apikey) and set it in the project-root `.env`:
 
-- `App.js` — dashboard, permission request, image selection, analysis trigger and state.
-- `src/services/gemini.js` — Gemini API call: base64 encodes the image and returns structured JSON.
-- `src/components/AnalysisResult.js` — displays analysis in four sections: Scene, Objects, Signs & Text, Observations.
-- `src/components/FeatureCard.js` — reusable informational feature card.
-- `src/styles/theme.js` — shared warm lavender palette.
-- `app.json` — Expo app settings and photo permission copy.
-- `.env` — API key (gitignored, never commit).
+```dotenv
+EXPO_PUBLIC_GEMINI_API_KEY=your_gemini_api_key_here
+```
 
-## Dependencies
+Expo embeds `EXPO_PUBLIC_` values in the app bundle. Treat this client-side setup as a development/prototype configuration; use a secured server-side proxy before distributing a production app. `.env` is ignored by Git; never commit it.
 
-- Expo SDK 58, React Native, React, and Expo Status Bar from the blank Expo template.
-- `expo-image-picker` for device gallery access and base64 encoding.
-- Google Gemini API (`gemini-3.5-flash`) via `fetch` — no extra npm package required.
+## Android development build
+
+Install Android Studio and configure an Android device/emulator, then run from the project root:
+
+```powershell
+npm install
+npx expo prebuild --platform android
+npx expo run:android --device
+npx expo start --dev-client
+```
+
+The Android application ID is `com.drishtiai.assistant`. Rebuild the development app after changing native configuration. Detailed microphone permission and voice-session steps are in [VOICE_ASSISTANCE_ANDROID.md](VOICE_ASSISTANCE_ANDROID.md).
+
+## Environment variables
+
+| Variable | Purpose | Example |
+| --- | --- | --- |
+| `EXPO_PUBLIC_GEMINI_API_KEY` | Gemini Vision API key for image analysis | `your_gemini_api_key_here` |
+| `EXPO_PUBLIC_YOLO_URL` | Base URL of the FastAPI YOLO service | `http://10.0.2.2:8000` (Android Emulator) |
+
+Use `.env.example` as a template. Do not place real credentials in that file.
 
 ## Known limitations
 
-- The API key is embedded in the client bundle (see security note above).
-- Image analysis requires an internet connection.
-- Very large images may take several seconds to encode and transmit.
-- Live camera analysis and voice output are not included in this phase.
+- Android speech recognition is provider-dependent, may need network access, runs only while the app is foregrounded, and is not guaranteed to recognize every activation phrase.
+- Voice recognition requires a native Android development build; Expo Go does not include the speech-recognition module.
+- Gemini analysis requires internet access, and the client-side API key is extractable from a built app.
+- YOLO requires the separate backend to be running and reachable from the device.
+- Image descriptions and detections may be wrong; they are not safety-critical navigation guidance.
+
+## Future improvements
+
+- Move Gemini requests behind an authenticated backend so the key is not distributed in the client.
+- Evaluate a dedicated offline wake-word engine and device speech-recognition coverage.
+- Improve reliability testing and user feedback for uncertain image results.
